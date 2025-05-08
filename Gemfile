@@ -61,3 +61,11 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem 'devise'
+
+ gem 'kaminari'
+
+ gem 'dotenv-rails'
+ gem 'cloudinary'
+ gem 'activestorage-cloudinary-service'
