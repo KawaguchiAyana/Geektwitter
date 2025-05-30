@@ -17,4 +17,17 @@ class User < ApplicationRecord
 
   validates :name, presence: true 
   validates :profile, length: { maximum: 200 } 
+
+  has_one_attached :image
+  attr_accessor :remove_image
+
+  #DM機能
+  has_many :messages, dependent: :destroy
+  has_many :entries, dependent: :destroy
+
+before_save :purge_image, if: -> { remove_image == '1' }
+
+def purge_image
+  image.purge
+end
 end

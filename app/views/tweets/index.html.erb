@@ -12,6 +12,9 @@
   <%= paginate @tweets %>
 <div class="tweets-container">
   <% @tweets.each do |t| %>
+    <% if t.user.image.attached? %>
+     <%= image_tag  t.user.image, size: '250x200'%>
+  <% end %>
     <div class="tweet">
       <%= t.body %>
       <%= t.created_at %>
@@ -66,4 +69,23 @@
 <% end %>
 
 
+<h3>いいねランキング</h3>
+<% @rank_tweets.each do |t| %>
+    <div class="tweet">
+      <%= t.body %>
+      <%= t.created_at %>
+      <%= t.user.email %> 
+      <% if t.image.attached? %>
+        <%= image_tag t.image, size: '250x200'%>
+      <% end %>
+      <%= link_to "詳細へ", tweet_path(t.id) %>
+      <% if user_signed_in? && current_user.id == t.user_id %>
+        <%= link_to "編集する", edit_tweet_path(t.id) %>
+        <%= button_to "削除する", tweet_path(t.id), method: :delete %>  
+      <% end %> 
+    </div>
+<% end %>
+
 <%= link_to '新規投稿へ', new_tweet_path %>
+
+<%= link_to '診断ページへ', new_post_path %>

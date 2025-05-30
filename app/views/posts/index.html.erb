@@ -1,0 +1,9 @@
+<% @posts.each do |t| %>
+    <% if t.number == @result %>
+        <div class="tweet">
+            あなたは<%= t.content %>です。
+        </div>
+    <% end %>
+<% end %>
+
+<%= link_to "Tweet一覧に戻る", tweets_path %>

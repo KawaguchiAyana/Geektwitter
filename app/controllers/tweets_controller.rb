@@ -9,6 +9,8 @@ class TweetsController < ApplicationController
       #部分検索
       @tweets = Tweet.where("body LIKE ? ",'%' + params[:search] + '%')
     end
+
+    @rank_tweets = Tweet.all.sort {|a,b| b.liked_users.count <=> a.liked_users.count}
     
 
 
@@ -68,6 +70,9 @@ class TweetsController < ApplicationController
     tweet.destroy
     redirect_to action: :index
   end
+
+
+
 
   private
   def tweet_params

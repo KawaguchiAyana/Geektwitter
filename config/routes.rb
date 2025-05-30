@@ -21,4 +21,10 @@ Rails.application.routes.draw do
   end
 
   root 'tweets#index'
+
+  resources :users, :only => [:index, :show]
+  resources :messages, :only => [:create]
+  resources :rooms, :only => [:create, :show]
+
+  resources :posts
 end

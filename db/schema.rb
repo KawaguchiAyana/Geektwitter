@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_07_092804) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_30_122600) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -49,6 +49,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_092804) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "entries", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "room_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_entries_on_room_id"
+    t.index ["user_id"], name: "index_entries_on_user_id"
+  end
+
   create_table "likes", force: :cascade do |t|
     t.integer "tweet_id", null: false
     t.integer "user_id", null: false
@@ -56,6 +65,28 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_092804) do
     t.datetime "updated_at", null: false
     t.index ["tweet_id"], name: "index_likes_on_tweet_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "room_id", null: false
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_messages_on_room_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.string "number"
+    t.string "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "rooms", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tags", force: :cascade do |t|
@@ -90,6 +121,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_092804) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.text "profile"
+    t.integer "user_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -98,8 +130,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_07_092804) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "tweets"
   add_foreign_key "comments", "users"
+  add_foreign_key "entries", "rooms"
+  add_foreign_key "entries", "users"
   add_foreign_key "likes", "tweets"
   add_foreign_key "likes", "users"
+  add_foreign_key "messages", "rooms"
+  add_foreign_key "messages", "users"
   add_foreign_key "tweet_tag_relations", "tags"
   add_foreign_key "tweet_tag_relations", "tweets"
 end
